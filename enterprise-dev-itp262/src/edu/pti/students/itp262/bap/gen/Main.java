@@ -14,7 +14,7 @@ import java.util.Random;
 import com.attributestudios.api.util.crypto.HashUtils;
 import com.attributestudios.api.util.crypto.HashUtils.HashingType;
 
-import edu.pti.students.itp262.bap.data.ClassType;
+import edu.pti.students.itp262.bap.data.CourseType;
 import edu.pti.students.itp262.bap.data.SQLFunctions;
 
 /**
@@ -29,9 +29,10 @@ import edu.pti.students.itp262.bap.data.SQLFunctions;
 // #define DEBUG
 
 /**
- * Dirty, dirty program.
- * Gets the job done; nothing else.
- * @author Bridger Maskrey (centurionfox@gmail.com)
+ * Dirty, dirty program quickly written to generate random student
+ * 	data and insert it into the database.
+ * 
+ * @author Bridger Maskrey (maskreybe@live.com)
  *
  */
 public class Main
@@ -225,8 +226,8 @@ public class Main
 		// endregion
 		
 		//region Class Insertion 
-		ClassType gened = ClassType.GEN_ED;
-		ClassType actual = new ClassType[]{ClassType.PROGRAMMING, ClassType.MULTIMEDIA, ClassType.CAD}[random.nextInt(3)];
+		CourseType gened = CourseType.GEN_ED;
+		CourseType actual = new CourseType[]{CourseType.PROGRAMMING, CourseType.MULTIMEDIA, CourseType.CAD}[random.nextInt(3)];
 		
 		java.sql.Date date = java.sql.Date.valueOf("1970-01-01"); //UNIX EPOCH
 		try

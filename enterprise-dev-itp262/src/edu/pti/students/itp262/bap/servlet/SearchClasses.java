@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.pti.students.itp262.bap.data.ClassType;
+import edu.pti.students.itp262.bap.data.CourseType;
 
 /**
  * @author bem9

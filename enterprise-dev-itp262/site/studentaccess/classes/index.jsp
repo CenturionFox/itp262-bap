@@ -30,20 +30,20 @@
 		<div><h2>Class Signup</h2></div>
 		<hr>
 		<form action="/studentaccess/classes/search.do" method="post">
-		<div>Search:
-			<select id="classType" name="classType">
-				<%
-				
-				for(ClassType ct : ClassType.values())
-				{
-					out.println("<option value=\"" + ct.getClassType() + "\">" + ct.getClassType() + "</option>");
-				}
-				
-				%>
-			</select>
-			<input type="submit">
-		</div>
-		<div><input type="checkbox" value="Include Gen-Ed Classes" name="incGed" value="incGed">Include GenEd Classes</input></div>
+			<div>Search:
+				<select id="classType" name="classType" onChange="enableDisableCheckbox">
+					<%
+					
+					for(CourseType ct : CourseType.values())
+					{
+						out.println("<option value=\"" + ct.toString() + "\">" + ct.toString() + "</option>");
+					}
+					
+					%>
+				</select>
+				<input type="submit">
+			</div>
+			<div><input type="checkbox" value="Include Gen-Ed Classes" name="incGed" value="incGed">Include GenEd Classes</input></div>
 		</form>
 	</div>
 
