@@ -1,0 +1,49 @@
+body
+{
+	font-family: "Arial", Arial, sans;
+}
+
+h1
+{
+	font-family: "Arial Bold", Arial, sans;
+	font-weight: bolder;
+	font-size: 45px;
+	color: white;
+	margin: 10px;
+}
+
+.main h1
+{
+	color: black;
+	margin-left: 20px;
+}
+
+h2
+{
+	font-family: "Arial Bold", Arial, sans;
+	font-weight: bolder;
+	margin: 2px 0px 2px 0px;
+}
+
+p
+{
+	font-family: "Times New Roman", Times, serif;
+	font-size: 1.1em;
+	text-indent: 1.5em;
+}
+
+h3
+{
+margin: 2px 0px 2px 0px;
+}
+
+h5
+{
+margin: 2px 0px 2px 0px;
+}
+
+.fail
+{
+	font-style: italic;
+	color: red;
+}
