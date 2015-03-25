@@ -31,10 +31,7 @@ public class SearchClasses extends HttpServlet
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		for(ClassType ct : ClassType.values())
-		{
-			;
-		}
+		
 	}
 
 	/**
