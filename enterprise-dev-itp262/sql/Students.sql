@@ -137,10 +137,25 @@ INSERT INTO Classes VALUES ('GEE150', 'General Education', 'English Composition 
 INSERT INTO Classes VALUES ('GEE211', 'General Education', 'Effective Speech', 3, 0, 2, 0);
 
 INSERT INTO ScheduledClasses VALUES ('SSD551', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('SSD750', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('ITP201', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('ITP300', '04/15/2015');
+
 INSERT INTO ScheduledClasses VALUES ('MMA113', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('MMA131', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('MMA144', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('MMA280', '04/15/2015');
+
 INSERT INTO ScheduledClasses VALUES ('CAD120', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('CAD125', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('CAD131', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('CAD145', '04/15/2015');
+
 INSERT INTO ScheduledClasses VALUES ('GES100', '04/15/2015');
 INSERT INTO ScheduledClasses VALUES ('GEH120', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('GEE150', '04/15/2015');
+INSERT INTO ScheduledClasses VALUES ('GEE211', '04/15/2015');
+
 INSERT INTO UnavailableRooms VALUES ('106A', '04/15/2015');
 
 INSERT INTO Admin VALUES ('', 'Guest', '');

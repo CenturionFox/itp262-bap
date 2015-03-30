@@ -13,13 +13,23 @@
 -->
 
 <%@ page import="edu.pti.students.itp262.bap.session.*" %>
-<%@ page import="edu.pti.students.itp262.bap.data.ClassType"%>
+<%@ page import="edu.pti.students.itp262.bap.data.*"%>
 <%@ page import="edu.pti.students.itp262.bap.session.beans.*" %>
 <html>
 
 <head>
 	<title>Student Registration</title>
 	<script type="text/javascript" src="/studentaccess/src/script/registration/validate.js"></script>
+	<script>
+	function enableDisableCheckbox()
+	{
+		var classtype = document.getElementById("classType").value;
+		var gened = <%= CourseType.GEN_ED.toString() %>;
+		
+		document.getElementById("genEdSwitch").disabled = classtype == gened;
+		
+	}
+	</script>
 	<%@include file="/src/include/shared_metadata.html"%>
 </head>
 
@@ -31,7 +41,7 @@
 		<hr>
 		<form action="/studentaccess/classes/search.do" method="post">
 			<div>Search:
-				<select id="classType" name="classType" onChange="enableDisableCheckbox">
+				<select id="classType" name="classType" onChange="enableDisableCheckbox()">
 					<%
 					
 					for(CourseType ct : CourseType.values())
@@ -43,7 +53,7 @@
 				</select>
 				<input type="submit">
 			</div>
-			<div><input type="checkbox" value="Include Gen-Ed Classes" name="incGed" value="incGed">Include GenEd Classes</input></div>
+			<div><input id="genEdSwitch" type="checkbox" value="Include Gen-Ed Classes" name="incGed" value="incGed">Include GenEd Classes</input></div>
 		</form>
 	</div>
 

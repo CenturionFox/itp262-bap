@@ -5,6 +5,7 @@ package edu.pti.students.itp262.bap.gen;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,16 @@ import edu.pti.students.itp262.bap.data.SQLFunctions;
  */
 public class Main
 {
+	private static final int PHONE_PREFIX = 1000000000;
 	private static final String DIVIDER = "----------------------------------------------------------------";
+	private static final int TIMES = 500;
+	private static final int[] ORDINAL_MAX = new int[]{135, 194, 120, 459};
+	private static final int[][] COURSE_MAXES = new int[][] {
+		new int[]{45, 35, 20, 35},
+		new int[]{42, 42, 80, 30},
+		new int[]{30, 25, 25, 40},
+		new int[]{150, 109, 75, 125}
+	};
 
 	/**
 	 * Output print writer.
@@ -60,12 +70,21 @@ public class Main
 	
 	private static String passwordValidChars;
 	
+	private static int studentCount;
+	
+	private static int[][] counts = new int[][] {
+		new int[4], new int[4], new int[4], new int[4]
+	};
+	
+	private static int[] ordinalCounts = new int[4];
+	
 	/**
 	 * Program main function.
 	 * Controls all the program's functionality. 
 	 * @param args
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args)
+	public static void main(String[] args) throws InterruptedException
 	{
 		out.println("== NAME GENERATOR ==");
 		out.println("Loading names from config...");
@@ -74,30 +93,40 @@ public class Main
 		
 		Random random = new Random(System.currentTimeMillis());
 		
-		int times = 50;
+//		if(args != null && args.length > 0)
+//		{
+//			try
+//			{
+//				times = Integer.parseInt(args[0]);
+//			}
+//			catch(NumberFormatException nfe)
+//			{
+//				out.println("Error parsing argument 1: not an int.");
+//			}
+//		}
 		
-		if(args != null && args.length > 0)
-		{
-			try
-			{
-				times = Integer.parseInt(args[0]);
-			}
-			catch(NumberFormatException nfe)
-			{
-				out.println("Error parsing argument 1: not an int.");
-			}
-		}
-		
-		out.println("Inserting " + times + " names into database.");
+		out.println("Inserting " + TIMES + " names into database.");
 		out.println(DIVIDER);
 		
 		out.println("Attempt create debug table...");
 		createDebugTable();
 		out.println(DIVIDER);
 		
-		for(int i = 0; i < times; i++)
+		for(int i = 0; i < TIMES; i++)
 		{
 			buildAndWriteStudent(random);
+			Thread.sleep(10);
+		}
+		
+		out.println(DIVIDER);
+		for(CourseType ct : CourseType.values())
+		{
+			out.print(ct.toString() + ": " + ordinalCounts[ct.ordinal()] + " (");
+			for(int i = 0; i < 4; i++)
+			{
+				out.print(counts[ct.ordinal()][i] + ", ");
+			}
+			out.println(")");
 		}
 	}
 
@@ -167,10 +196,10 @@ public class Main
 		{
 			pass = HashUtils.hashAs(pass, HashingType.SHA256);
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
-			pass = "null";
+			pass = "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b";
 		}
 		
 		long phoneNum = 0;
@@ -180,9 +209,9 @@ public class Main
 			phoneNum += (j == 10 ? 1 : 0) + random.nextInt(j == 10 ? 9 : 10) * (Math.pow(10, j));
 		}
 		
-		if(phoneNum < 1000000000)
+		if(phoneNum < PHONE_PREFIX)
 		{
-			phoneNum += 1000000000;
+			phoneNum += PHONE_PREFIX;
 		}
 		
 		query.append(id + "','" + fName + "','" + mInit + "','" + lName + "'," + phoneNum + ",'" + pass +"');");
@@ -225,52 +254,51 @@ public class Main
 		}
 		// endregion
 		
-		//region Class Insertion 
-		CourseType gened = CourseType.GEN_ED;
-		CourseType actual = new CourseType[]{CourseType.PROGRAMMING, CourseType.MULTIMEDIA, CourseType.CAD}[random.nextInt(3)];
+		List<CourseType> currentStudentCourses = new ArrayList<CourseType>();
 		
-		java.sql.Date date = java.sql.Date.valueOf("1970-01-01"); //UNIX EPOCH
-		try
+		if(ordinalCounts[CourseType.GEN_ED.ordinal()] < ORDINAL_MAX[CourseType.GEN_ED.ordinal()])
 		{
-			out.println("SELECT DISTINCT startDate FROM scheduledClasses;");
-			ResultSet result = SQLFunctions.executeQuery("SELECT DISTINCT startDate FROM scheduledClasses;");
-			if(result.next())
+			currentStudentCourses.add(CourseType.GEN_ED);
+			ordinalCounts[CourseType.GEN_ED.ordinal()]++;
+		}
+		
+		if(studentCount >= 51)
+		{
+			if(studentCount < ORDINAL_MAX[CourseType.PROGRAMMING.ordinal()] + 51)
 			{
-				date = result.getDate(1);
+				currentStudentCourses.add(CourseType.PROGRAMMING);
+				ordinalCounts[CourseType.PROGRAMMING.ordinal()]++;
+			}
+			else if(studentCount < ORDINAL_MAX[CourseType.PROGRAMMING.ordinal()] + 51 + ORDINAL_MAX[CourseType.MULTIMEDIA.ordinal()])
+			{
+				currentStudentCourses.add(CourseType.MULTIMEDIA);
+				ordinalCounts[CourseType.MULTIMEDIA.ordinal()]++;
 			}
 			else
 			{
-				throw new Exception("NO RESULTS RETURNED");
+				currentStudentCourses.add(CourseType.CAD);
+				ordinalCounts[CourseType.CAD.ordinal()]++;
 			}
 		}
-		catch (Exception e)
+		
+		
+		for (CourseType actual : currentStudentCourses)
 		{
-			out.println("class reg for " + fName + " " + lName + " failed; start date query failure");
-			e.printStackTrace();
-			return;
+			// DO SPECIALIZED
+			String classQuery = "SELECT classes.classId as classid FROM classes INNER JOIN scheduledClasses " +
+				"ON scheduledClasses.classId = classes.classId " +
+				"AND type = '" + actual.toString() + "';";
+			out.println(classQuery);
+			if(!signUpStudent(random, fName, lName, id, new Date(System.currentTimeMillis()), classQuery, actual)) return;
 		}
-		
-		// DO GEN ED SIGNUP
-		String classQuery = "SELECT classes.classId as classid FROM classes INNER JOIN scheduledClasses " +
-			"ON scheduledClasses.classId = classes.classId " +
-			"AND scheduledClasses.startDate = '" + date.toString() + "' " +
-			"AND type = '" + gened.toString() + "';";
-		out.println(classQuery);
-		if(!signUpStudent(random, fName, lName, id, date, classQuery)) return;
-		
-		// DO SPECIALIZED
-		classQuery = "SELECT classes.classId as classid FROM classes INNER JOIN scheduledClasses " +
-			"ON scheduledClasses.classId = classes.classId " +
-			"AND scheduledClasses.startDate = '" + date.toString() + "' " +
-			"AND type = '" + actual.toString() + "';";
-		out.println(classQuery);
-		if(!signUpStudent(random, fName, lName, id, date, classQuery)) return;
 		
 		out.println("User " + fName + " " + mInit + " " + lName + " registered and signed up");
 		out.println(DIVIDER);
+		
+		studentCount++;
 	}
 
-	private static boolean signUpStudent(Random random, String fName, String lName, String id, java.sql.Date date, String classQuery)
+	private static boolean signUpStudent(Random random, String fName, String lName, String id, java.sql.Date date, String classQuery, CourseType courseType)
 	{
 		String classId;
 		try
@@ -285,6 +313,34 @@ public class Main
 			}
 			
 			classId = classIds.get(random.nextInt(classIds.size()));
+			
+//			switch(courseType)
+//			{
+//			case GEN_ED:
+//				for(int i = 0; i < genEdMax.length; i++)
+//				{
+//					if(genEdCount[i] < genEdMax[i])
+//					{
+//						genEdCount[i]++;
+//						classId = classIds.get(i);
+//						break;
+//					}
+//				}
+//				break;
+//				
+//			default:
+//				
+//			}
+			
+			for(int i = 0; i < COURSE_MAXES[courseType.ordinal()].length; i++)
+			{
+				if(counts[courseType.ordinal()][i] < COURSE_MAXES[courseType.ordinal()][i])
+				{
+					counts[courseType.ordinal()][i]++;
+					classId = classIds.get(i);
+					break;
+				}
+			}
 			
 			String insertClass = "INSERT INTO studentClasses VALUES('" + id + "', '" + classId + "', '" + date.toString() +"');";
 			out.println(insertClass);
