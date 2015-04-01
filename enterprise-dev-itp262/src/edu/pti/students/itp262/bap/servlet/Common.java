@@ -13,14 +13,14 @@ public class Common
 	 */
 	public static void clearAllWarningMessages(HttpSession userSession)
 	{
-		setLogInFailMessage(userSession, "");
+		setOperationFailMessage(userSession, "");
 	}
 	
 	/**
 	 * @param userSession
 	 * @param message
 	 */
-	public static void setLogInFailMessage(HttpSession userSession, String message)
+	public static void setOperationFailMessage(HttpSession userSession, String message)
 	{
 		userSession.setAttribute("logInError", message);
 	};

@@ -72,7 +72,7 @@ public class StudentLoginFunctions extends HttpServlet
 					if(!hashFromDb.equals(passHash))
 					{
 						// Password mismatch.
-						Common.setLogInFailMessage(userSession, "The ID and password do not match. Please try again.");
+						Common.setOperationFailMessage(userSession, "The ID and password do not match. Please try again.");
 						resp.sendRedirect("/studentaccess/");
 						return;
 					}
@@ -83,7 +83,7 @@ public class StudentLoginFunctions extends HttpServlet
 				else
 				{
 					// ID not extant in database.
-					Common.setLogInFailMessage(userSession, "The specified ID did not exist. Please try again, or if you are a new student, register first.");
+					Common.setOperationFailMessage(userSession, "The specified ID did not exist. Please try again, or if you are a new student, register first.");
 					resp.sendRedirect("/studentaccess/");
 					return;
 				}
@@ -101,7 +101,7 @@ public class StudentLoginFunctions extends HttpServlet
 				else
 				{
 					// Well, that was odd; the user managed to get this far but does not exist.
-					Common.setLogInFailMessage(userSession, "Unable to verify user. Please contact an administrator.");
+					Common.setOperationFailMessage(userSession, "Unable to verify user. Please contact an administrator.");
 					resp.sendRedirect("/studentaccess/");
 					return;
 				}
@@ -109,7 +109,7 @@ public class StudentLoginFunctions extends HttpServlet
 			catch(SQLException e)
 			{
 				// Query executed improperly
-				Common.setLogInFailMessage(userSession, "An error occured while logging in: " + e.getMessage() +". Please try again later.");
+				Common.setOperationFailMessage(userSession, "An error occured while logging in: " + e.getMessage() +". Please try again later.");
 				resp.sendRedirect("/studentaccess/");
 				return;
 			}

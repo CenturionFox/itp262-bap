@@ -49,7 +49,7 @@ CREATE TABLE StudentClasses
 	FOREIGN KEY (studentID) REFERENCES Students(studentID)
 );
 
-/* Available rooms */
+/* All rooms and room data */
 CREATE TABLE Rooms
 (
 	roomNumber	VARCHAR(7)	PRIMARY KEY,	/* Room # (Library in that case) */
@@ -82,6 +82,16 @@ CREATE TABLE Classes(
 	hoursLab	INT,						/* Hours required in a computer lab */
 	hoursLibrary	INT						/* Hours required in the library */
 );
+
+CREATE TABLE classroomListing
+{
+	roomNumber	VARCHAR(7),
+	classID		CHAR(6),
+	classStart	TIMESTAMP,
+	classEnd	TIMESTAMP,
+	FOREIGN KEY (roomNumber) REFERENCES Rooms(roomNumber),
+	FOREIGN KEY (classID) REFERENCES Classes(classID)
+};
 
 /* Class / available date association table. Date determines when this class may be scheduled. */
 CREATE TABLE ScheduledClasses(

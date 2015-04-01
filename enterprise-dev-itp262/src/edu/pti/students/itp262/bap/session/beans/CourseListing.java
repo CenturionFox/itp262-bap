@@ -1,32 +1,26 @@
 package edu.pti.students.itp262.bap.session.beans;
 
+import java.sql.Date;
+
+import edu.pti.students.itp262.bap.data.CourseType;
+
 /**
  * @author bem9
  *
  */
 public class CourseListing
 {
-	/**
-	 * 
-	 */
 	private String classId;
-	/**
-	 * 
-	 */
-	private String type;
-	/**
-	 * 
-	 */
-	private String name;
+
+	private CourseType type;
 	
-	/**
-	 * 
-	 */
+	private Date startDate;
+	
 	public CourseListing()
 	{
 		this.classId = "";
-		this.type = "";
-		this.name = "";
+		this.type = null;
+		this.startDate = new Date(0);
 	}
 
 	/**
@@ -40,17 +34,17 @@ public class CourseListing
 	/**
 	 * @return the type
 	 */
-	public String getType()
+	public CourseType getType()
 	{
 		return this.type;
 	}
 
 	/**
-	 * @return the name
+	 * @return the startDate
 	 */
-	public String getName()
+	public Date getStartDate()
 	{
-		return this.name;
+		return this.startDate;
 	}
 
 	/**
@@ -64,17 +58,17 @@ public class CourseListing
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(String type)
+	public void setType(CourseType type)
 	{
 		this.type = type;
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param startDate the startDate to set
 	 */
-	public void setName(String name)
+	public void setStartDate(Date startDate)
 	{
-		this.name = name;
+		this.startDate = startDate;
 	}
 
 	/* (non-Javadoc)
@@ -83,9 +77,11 @@ public class CourseListing
 	@Override
 	public int hashCode()
 	{
-		final int prime = 43;
+		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((this.classId == null) ? 0 : this.classId.hashCode());
+		result = prime * result + ((this.startDate == null) ? 0 : this.startDate.hashCode());
+		result = prime * result + ((this.type == null) ? 0 : this.type.hashCode());
 		return result;
 	}
 
@@ -95,15 +91,21 @@ public class CourseListing
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (this == obj) { return true; }
-		if (obj == null) { return false; }
-		if (getClass() != obj.getClass()) { return false; }
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
 		CourseListing other = (CourseListing) obj;
 		if (this.classId == null)
 		{
-			if (other.classId != null) { return false; }
+			if (other.classId != null) return false;
 		}
-		else if (!this.classId.equals(other.classId)) { return false; }
+		else if (!this.classId.equals(other.classId)) return false;
+		if (this.startDate == null)
+		{
+			if (other.startDate != null) return false;
+		}
+		else if (!this.startDate.equals(other.startDate)) return false;
+		if (this.type != other.type) return false;
 		return true;
 	}
 
@@ -113,8 +115,6 @@ public class CourseListing
 	@Override
 	public String toString()
 	{
-		return "CourseListing [classId=" + this.classId + "]";
+		return "CourseListing [classId=" + this.classId + ", type=" + this.type + ", startDate=" + this.startDate + "]";
 	}
-	
-	
 }

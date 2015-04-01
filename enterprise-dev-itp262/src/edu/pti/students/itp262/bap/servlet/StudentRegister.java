@@ -122,7 +122,7 @@ public class StudentRegister extends HttpServlet
 	private void registrationFail(HttpServletResponse resp, HttpSession userSession, Exception e) throws IOException
 	{
 		e.printStackTrace();
-		Common.setLogInFailMessage(userSession, "Registration failed: " + e.getMessage());
+		Common.setOperationFailMessage(userSession, "Registration failed: " + e.getMessage());
 		resp.sendRedirect("/studentaccess/registration");
 		return;
 	}

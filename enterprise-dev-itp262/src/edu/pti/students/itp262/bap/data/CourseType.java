@@ -59,6 +59,18 @@ public enum CourseType
 		return this.courseType;
 	}
 	
+	public static CourseType getCourseForType(String courseType)
+	{
+		for(CourseType type : CourseType.values())
+		{
+			if(type.courseType.equals(courseType))
+			{
+				return type;
+			}
+		}
+		return null;
+	}
+	
 	/**
 	 * Returns the database course type value of this enum.
 	 */
