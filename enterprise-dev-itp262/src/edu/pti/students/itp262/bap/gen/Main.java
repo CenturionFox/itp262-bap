@@ -359,6 +359,7 @@ public class Main
 	{
 		try
 		{
+			SQLFunctions.executeSQL("DROP TABLE Debug_Passwords CASCADE;");
 			SQLFunctions.executeSQL("CREATE TABLE Debug_Passwords ( id varchar(5), password text, foreign key (id) references Students(studentid) );");
 		}
 		catch(Exception e) 
